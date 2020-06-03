@@ -1,0 +1,17 @@
+scenario Lift_working
+load Lift.asm
+
+step
+set existCallFromTo(2, UP) := true;
+step
+check liftState(lift1) = MOVING;
+check liftDirection(lift1) = UP;
+check liftFloor(lift1) = 1;
+step
+check liftState(lift1) = MOVING;
+check liftDirection(lift1) = UP;
+check liftFloor(lift1) = 2;
+check existCallFromTo(2, DOWN) = false;
+step
+check liftState(lift1) = HALTING;
+check liftFloor(lift1) = 2;

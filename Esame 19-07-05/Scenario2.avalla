@@ -1,0 +1,6 @@
+scenario Scenario1
+load Container.asm
+
+exec forall $row in Row, $col in Column with true do container($row, $col) := FULL;
+step until (exist $row1 in Row, $col1 in Column with container($row1, $col1) = EMPTY);
+check not(isFull);

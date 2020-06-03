@@ -1,0 +1,65 @@
+--file E:\Documenti\Eclipse\Default\ASMTest\ControlSystem\ControlSystem.smv
+MODULE main
+	VAR
+		offPulse_ACTUATOR1: boolean; --controlled
+		offPulse_ACTUATOR2: boolean; --controlled
+		onPulse_ACTUATOR1: boolean; --controlled
+		onPulse_ACTUATOR2: boolean; --controlled
+		state_ACTUATOR1: {OFF, ON, STATE_UNDEF}; --controlled
+		state_ACTUATOR2: {OFF, ON, STATE_UNDEF}; --controlled
+		time: {TA, TB, TC, TD}; --monitored
+		timeState_CONTROLLER: {TA, TB, TC, TD, TIME_UNDEF}; --controlled
+	CONSTANTS TIME_UNDEF, TA, TB, TC, TD, ACTUATOR1, ACTUATOR2, ACTUATOR_UNDEF, ACTUATOR1, ACTUATOR2, STATE_UNDEF, OFF, ON, CONTROLLER, CONTROLLER_UNDEF, CONTROLLER;
+	ASSIGN
+		init(offPulse_ACTUATOR1) := FALSE;
+		init(offPulse_ACTUATOR2) := FALSE;
+		init(onPulse_ACTUATOR1) := FALSE;
+		init(onPulse_ACTUATOR2) := FALSE;
+		init(state_ACTUATOR1) := OFF;
+		init(state_ACTUATOR2) := OFF;
+		init(timeState_CONTROLLER) := TIME_UNDEF;
+		next(offPulse_ACTUATOR1) :=
+			case
+				((((TA = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR1)) | ((((TD = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR1)) | (((TC = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR1)))): TRUE;
+				(offPulse_ACTUATOR1): FALSE;
+				TRUE: offPulse_ACTUATOR1;
+			esac;
+		next(offPulse_ACTUATOR2) :=
+			case
+				(((((TC = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR2)) | (((TA = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR2))) | (((TB = time) & (timeState_CONTROLLER != time)) & !(offPulse_ACTUATOR2))): TRUE;
+				(offPulse_ACTUATOR2): FALSE;
+				TRUE: offPulse_ACTUATOR2;
+			esac;
+		next(onPulse_ACTUATOR1) :=
+			case
+				(((TB = time) & (timeState_CONTROLLER != time)) & !(onPulse_ACTUATOR1)): TRUE;
+				(onPulse_ACTUATOR1 & !(offPulse_ACTUATOR1)): FALSE;
+				TRUE: onPulse_ACTUATOR1;
+			esac;
+		next(onPulse_ACTUATOR2) :=
+			case
+				(((TD = time) & (timeState_CONTROLLER != time)) & !(onPulse_ACTUATOR2)): TRUE;
+				(onPulse_ACTUATOR2 & !(offPulse_ACTUATOR2)): FALSE;
+				TRUE: onPulse_ACTUATOR2;
+			esac;
+		next(state_ACTUATOR1) :=
+			case
+				(offPulse_ACTUATOR1): OFF;
+				(onPulse_ACTUATOR1 & !(offPulse_ACTUATOR1)): ON;
+				TRUE: state_ACTUATOR1;
+			esac;
+		next(state_ACTUATOR2) :=
+			case
+				(offPulse_ACTUATOR2): OFF;
+				(onPulse_ACTUATOR2 & !(offPulse_ACTUATOR2)): ON;
+				TRUE: state_ACTUATOR2;
+			esac;
+		next(timeState_CONTROLLER) :=
+			case
+				(timeState_CONTROLLER != time): time;
+				TRUE: timeState_CONTROLLER;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := !(EF(((state_ACTUATOR1 = ON) & (state_ACTUATOR2 = ON))));
+--AsmetaL invariants
+CTLSPEC	AG((!(onPulse_ACTUATOR1 & offPulse_ACTUATOR1) & !(onPulse_ACTUATOR2 & offPulse_ACTUATOR2)));

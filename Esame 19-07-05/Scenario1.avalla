@@ -1,0 +1,12 @@
+scenario Scenario1
+load Container.asm
+
+// Specificare in Avalla uno scenario che riproduca la seguente situazione: tutti i container sono occupati tranne
+// quello di posto (2,3), questo viene selezionato per essere riempito e il suo stato diventa occupato.
+
+exec forall $row in Row, $col in Column with true do container($row, $col) := FULL;
+exec container(2,3) := EMPTY;
+set fillRow := 2;
+set fillColumn := 3;
+step
+check container(2,3) = FULL;

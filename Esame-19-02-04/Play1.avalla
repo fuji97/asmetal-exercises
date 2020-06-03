@@ -1,0 +1,7 @@
+scenario Play1
+load Play.asm
+
+set play(PC) := 2n;
+set play(USER) := 4n;
+step
+check money(USER) = 6;

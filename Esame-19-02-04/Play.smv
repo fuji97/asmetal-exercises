@@ -1,0 +1,70 @@
+--file E:\Documenti\Eclipse\Default\ASMTest\Esame-19-02-04\Play.smv
+MODULE main
+	VAR
+		gameWinner: {PATTA, WINNER_UNDEF, WINPC, WINUSER}; --controlled
+		money_PC: {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		money_USER: {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}; --controlled
+		play_PC: 1..5; --monitored
+		play_USER: 1..5; --monitored
+	DEFINE
+		finalWinner :=
+			case
+				(!((money_USER = 0) & (money_PC != 0)) & !((money_PC = 0) & (money_USER != 0))): PATTA;
+				(((money_PC = 0) & (money_USER != 0)) & !((money_USER = 0) & (money_PC != 0))): WINUSER;
+				((money_USER = 0) & (money_PC != 0)): WINPC;
+				TRUE: WINNER_UNDEF;
+			esac;
+		winner_1_1 := PATTA;
+		winner_1_2 := WINPC;
+		winner_1_3 := WINPC;
+		winner_1_4 := WINPC;
+		winner_1_5 := WINPC;
+		winner_2_1 := WINUSER;
+		winner_2_2 := PATTA;
+		winner_2_3 := WINPC;
+		winner_2_4 := WINPC;
+		winner_2_5 := WINPC;
+		winner_3_1 := WINUSER;
+		winner_3_2 := WINUSER;
+		winner_3_3 := PATTA;
+		winner_3_4 := WINPC;
+		winner_3_5 := WINPC;
+		winner_4_1 := WINUSER;
+		winner_4_2 := WINUSER;
+		winner_4_3 := WINUSER;
+		winner_4_4 := PATTA;
+		winner_4_5 := WINPC;
+		winner_5_1 := WINUSER;
+		winner_5_2 := WINUSER;
+		winner_5_3 := WINUSER;
+		winner_5_4 := WINUSER;
+		winner_5_5 := PATTA;
+	CONSTANTS WINNER_UNDEF, PATTA, WINPC, WINUSER, ENTITY_UNDEF, PC, USER;
+	ASSIGN
+		init(gameWinner) := WINNER_UNDEF;
+		init(money_PC) := 5;
+		init(money_USER) := 5;
+		next(gameWinner) :=
+			case
+				(finalWinner != PATTA): finalWinner;
+				TRUE: gameWinner;
+			esac;
+		next(money_PC) :=
+			case
+				((!(finalWinner != PATTA) & ((play_USER = 1) & (play_PC = 5))) | (((!(finalWinner != PATTA) & ((play_PC = 5) & (play_USER = 4))) | ((((!(finalWinner != PATTA) & ((play_USER = 1) & (play_PC = 4))) | ((((play_USER = 1) & (play_PC = 3)) & !(finalWinner != PATTA)) | ((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 4))) | ((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 3))) | (!(finalWinner != PATTA) & ((play_PC = 4) & (play_USER = 3))))))) | (!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 5)))) | (((play_USER = 1) & (play_PC = 2)) & !(finalWinner != PATTA)))) | (((play_USER = 3) & (play_PC = 5)) & !(finalWinner != PATTA)))) & (money_PC + 2) in {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: (money_PC + 2);
+				(((!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 5))) | (((((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 1))) | ((((!(finalWinner != PATTA) & ((play_PC = 3) & (play_USER = 4))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 4)))) | (!(finalWinner != PATTA) & ((play_USER = 5) & (play_PC = 4)))) | (!(finalWinner != PATTA) & ((play_USER = 5) & (play_PC = 3))))) | (!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 4)))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 3)))) | (!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 3))))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 5)))) & (money_PC - 1) in {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: (money_PC - 1);
+				TRUE: money_PC;
+			esac;
+		next(money_USER) :=
+			case
+				((!(finalWinner != PATTA) & ((play_USER = 1) & (play_PC = 5))) | (((!(finalWinner != PATTA) & ((play_PC = 5) & (play_USER = 4))) | ((((!(finalWinner != PATTA) & ((play_USER = 1) & (play_PC = 4))) | ((((play_USER = 1) & (play_PC = 3)) & !(finalWinner != PATTA)) | ((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 4))) | ((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 3))) | (!(finalWinner != PATTA) & ((play_PC = 4) & (play_USER = 3))))))) | (!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 5)))) | (((play_USER = 1) & (play_PC = 2)) & !(finalWinner != PATTA)))) | (((play_USER = 3) & (play_PC = 5)) & !(finalWinner != PATTA)))) & (money_USER - 2) in {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: (money_USER - 2);
+				(((!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 5))) | (((((!(finalWinner != PATTA) & ((play_USER = 2) & (play_PC = 1))) | ((((!(finalWinner != PATTA) & ((play_PC = 3) & (play_USER = 4))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 4)))) | (!(finalWinner != PATTA) & ((play_USER = 5) & (play_PC = 4)))) | (!(finalWinner != PATTA) & ((play_USER = 5) & (play_PC = 3))))) | (!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 4)))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 3)))) | (!(finalWinner != PATTA) & ((play_PC = 2) & (play_USER = 3))))) | (!(finalWinner != PATTA) & ((play_PC = 1) & (play_USER = 5)))) & (money_USER + 1) in {-2147483647, 0, 1, 10, 2, 3, 4, 5, 6, 7, 8, 9}: (money_USER + 1);
+				TRUE: money_USER;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := (EF((money_USER = 10)) & ((EF((money_USER = 8)) & ((((((EF((money_USER = 2)) & (EF((money_USER = 0)) & EF((money_USER = 1)))) & EF((money_USER = 3))) & EF((money_USER = 4))) & EF((money_USER = 5))) & EF((money_USER = 6))) & EF((money_USER = 7)))) & EF((money_USER = 9))));
+CTLSPEC NAME ctl1 := AG(((money_USER >= 0) & (money_USER <= 10)));
+CTLSPEC NAME ctl2 := AG(((money_USER + money_PC) = 10));
+CTLSPEC NAME ctl3 := EF(AG((money_PC > 1)));
+--AsmetaL invariants
+CTLSPEC	AG(((money_PC + money_USER) = 10));

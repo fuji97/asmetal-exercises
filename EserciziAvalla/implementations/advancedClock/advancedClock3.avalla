@@ -1,0 +1,26 @@
+scenario advancedClock3
+load ../../models/AdvancedClock.asm
+
+invariant inv1 : hours < 3;
+
+exec
+	par
+		hours := 2
+		minutes := 1
+		seconds := 59
+	endpar
+;
+
+step
+
+check hours = 2 and minutes = 2 and seconds = 0;
+
+exec
+	par
+		hours := 0
+		minutes := 0
+		seconds := 0
+	endpar
+;
+
+step until hours = 3;

@@ -1,0 +1,31 @@
+scenario atm3
+load ../../models/ATM3.asm
+
+exec balance(card1) := 10;
+
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+
+set insertedPin := 1;
+step
+check atmState = CHOOSE;
+
+set selectedService := WITHDRAWAL;
+step
+check atmState = CHOOSEAMOUNT;
+
+set standardOrOther := STANDARD;
+step
+check atmState = STANDARDAMOUNTSELECTION;
+
+check moneyLeft = 1000 and balance(card1) = 10;
+set insertMoneySizeStandard := 50;
+step
+
+check moneyLeft = 1000 and balance(card1) = 10;
+check atmState = STANDARDAMOUNTSELECTION;
+set insertMoneySizeStandard := 10;
+step
+check moneyLeft = 990 and balance(card1) = 0;
+check atmState = AWAITCARD;

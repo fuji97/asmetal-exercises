@@ -1,0 +1,159 @@
+--file E:\Documenti\Eclipse\Default\ASMTest\Esame 19-02-04\Es4.smv
+MODULE main
+	VAR
+		phase: {PHASE1, PHASE2, PHASE3, PHASE4, PHASE_UNDEF}; --controlled
+		state_SEMAPHORE1: {COLOR_UNDEF, GREEN, RED, YELLOW}; --controlled
+		state_SEMAPHORE2: {COLOR_UNDEF, GREEN, RED, YELLOW}; --controlled
+		timePassed_1: boolean; --monitored
+		timePassed_10: boolean; --monitored
+		timePassed_100: boolean; --monitored
+		timePassed_101: boolean; --monitored
+		timePassed_102: boolean; --monitored
+		timePassed_103: boolean; --monitored
+		timePassed_104: boolean; --monitored
+		timePassed_105: boolean; --monitored
+		timePassed_106: boolean; --monitored
+		timePassed_107: boolean; --monitored
+		timePassed_108: boolean; --monitored
+		timePassed_109: boolean; --monitored
+		timePassed_11: boolean; --monitored
+		timePassed_110: boolean; --monitored
+		timePassed_111: boolean; --monitored
+		timePassed_112: boolean; --monitored
+		timePassed_113: boolean; --monitored
+		timePassed_114: boolean; --monitored
+		timePassed_115: boolean; --monitored
+		timePassed_116: boolean; --monitored
+		timePassed_117: boolean; --monitored
+		timePassed_118: boolean; --monitored
+		timePassed_119: boolean; --monitored
+		timePassed_12: boolean; --monitored
+		timePassed_120: boolean; --monitored
+		timePassed_13: boolean; --monitored
+		timePassed_14: boolean; --monitored
+		timePassed_15: boolean; --monitored
+		timePassed_16: boolean; --monitored
+		timePassed_17: boolean; --monitored
+		timePassed_18: boolean; --monitored
+		timePassed_19: boolean; --monitored
+		timePassed_2: boolean; --monitored
+		timePassed_20: boolean; --monitored
+		timePassed_21: boolean; --monitored
+		timePassed_22: boolean; --monitored
+		timePassed_23: boolean; --monitored
+		timePassed_24: boolean; --monitored
+		timePassed_25: boolean; --monitored
+		timePassed_26: boolean; --monitored
+		timePassed_27: boolean; --monitored
+		timePassed_28: boolean; --monitored
+		timePassed_29: boolean; --monitored
+		timePassed_3: boolean; --monitored
+		timePassed_30: boolean; --monitored
+		timePassed_31: boolean; --monitored
+		timePassed_32: boolean; --monitored
+		timePassed_33: boolean; --monitored
+		timePassed_34: boolean; --monitored
+		timePassed_35: boolean; --monitored
+		timePassed_36: boolean; --monitored
+		timePassed_37: boolean; --monitored
+		timePassed_38: boolean; --monitored
+		timePassed_39: boolean; --monitored
+		timePassed_4: boolean; --monitored
+		timePassed_40: boolean; --monitored
+		timePassed_41: boolean; --monitored
+		timePassed_42: boolean; --monitored
+		timePassed_43: boolean; --monitored
+		timePassed_44: boolean; --monitored
+		timePassed_45: boolean; --monitored
+		timePassed_46: boolean; --monitored
+		timePassed_47: boolean; --monitored
+		timePassed_48: boolean; --monitored
+		timePassed_49: boolean; --monitored
+		timePassed_5: boolean; --monitored
+		timePassed_50: boolean; --monitored
+		timePassed_51: boolean; --monitored
+		timePassed_52: boolean; --monitored
+		timePassed_53: boolean; --monitored
+		timePassed_54: boolean; --monitored
+		timePassed_55: boolean; --monitored
+		timePassed_56: boolean; --monitored
+		timePassed_57: boolean; --monitored
+		timePassed_58: boolean; --monitored
+		timePassed_59: boolean; --monitored
+		timePassed_6: boolean; --monitored
+		timePassed_60: boolean; --monitored
+		timePassed_61: boolean; --monitored
+		timePassed_62: boolean; --monitored
+		timePassed_63: boolean; --monitored
+		timePassed_64: boolean; --monitored
+		timePassed_65: boolean; --monitored
+		timePassed_66: boolean; --monitored
+		timePassed_67: boolean; --monitored
+		timePassed_68: boolean; --monitored
+		timePassed_69: boolean; --monitored
+		timePassed_7: boolean; --monitored
+		timePassed_70: boolean; --monitored
+		timePassed_71: boolean; --monitored
+		timePassed_72: boolean; --monitored
+		timePassed_73: boolean; --monitored
+		timePassed_74: boolean; --monitored
+		timePassed_75: boolean; --monitored
+		timePassed_76: boolean; --monitored
+		timePassed_77: boolean; --monitored
+		timePassed_78: boolean; --monitored
+		timePassed_79: boolean; --monitored
+		timePassed_8: boolean; --monitored
+		timePassed_80: boolean; --monitored
+		timePassed_81: boolean; --monitored
+		timePassed_82: boolean; --monitored
+		timePassed_83: boolean; --monitored
+		timePassed_84: boolean; --monitored
+		timePassed_85: boolean; --monitored
+		timePassed_86: boolean; --monitored
+		timePassed_87: boolean; --monitored
+		timePassed_88: boolean; --monitored
+		timePassed_89: boolean; --monitored
+		timePassed_9: boolean; --monitored
+		timePassed_90: boolean; --monitored
+		timePassed_91: boolean; --monitored
+		timePassed_92: boolean; --monitored
+		timePassed_93: boolean; --monitored
+		timePassed_94: boolean; --monitored
+		timePassed_95: boolean; --monitored
+		timePassed_96: boolean; --monitored
+		timePassed_97: boolean; --monitored
+		timePassed_98: boolean; --monitored
+		timePassed_99: boolean; --monitored
+	DEFINE
+	CONSTANTS COLOR_UNDEF, GREEN, RED, YELLOW, SEMAPHORE1, SEMAPHORE2, SEMAPHORE_UNDEF, PHASE_UNDEF, PHASE1, PHASE2, PHASE3, PHASE4;
+	ASSIGN
+		init(phase) := PHASE1;
+		init(state_SEMAPHORE1) := YELLOW;
+		init(state_SEMAPHORE2) := YELLOW;
+		next(phase) :=
+			case
+				(timePassed_120 & (phase = PHASE2)): PHASE3;
+				(timePassed_30 & (phase = PHASE1)): PHASE2;
+				(timePassed_120 & (phase = PHASE4)): PHASE1;
+				((phase = PHASE3) & timePassed_30): PHASE4;
+				TRUE: phase;
+			esac;
+		next(state_SEMAPHORE1) :=
+			case
+				((timePassed_120 & (phase = PHASE2)) | (timePassed_120 & (phase = PHASE4))): YELLOW;
+				(timePassed_30 & (phase = PHASE1)): GREEN;
+				((phase = PHASE3) & timePassed_30): RED;
+				TRUE: state_SEMAPHORE1;
+			esac;
+		next(state_SEMAPHORE2) :=
+			case
+				((timePassed_120 & (phase = PHASE2)) | (timePassed_120 & (phase = PHASE4))): YELLOW;
+				(timePassed_30 & (phase = PHASE1)): RED;
+				((phase = PHASE3) & timePassed_30): GREEN;
+				TRUE: state_SEMAPHORE2;
+			esac;
+--CTL properties
+CTLSPEC NAME ctl0 := AG(!((state_SEMAPHORE2 = GREEN) & (state_SEMAPHORE1 = GREEN)));
+CTLSPEC NAME ctl1 := AG(EF(((state_SEMAPHORE2 = GREEN) | (state_SEMAPHORE1 = GREEN))));
+CTLSPEC NAME ctl2 := EF((state_SEMAPHORE1 = GREEN));
+CTLSPEC NAME ctl3 := EF((state_SEMAPHORE2 = GREEN));

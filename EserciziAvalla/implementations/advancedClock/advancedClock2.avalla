@@ -1,0 +1,8 @@
+scenario advancedClock2
+
+load ../../models/AdvancedClock.asm
+
+step until hours = 3;
+check hours = 3 and minutes = 0 and seconds = 0;
+step
+check hours = 3 and minutes = 0 and seconds = 1;

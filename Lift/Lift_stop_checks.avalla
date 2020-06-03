@@ -1,0 +1,17 @@
+scenario Lift_stop_checks
+load Lift.asm
+
+step
+check liftState(lift1) = HALTING;
+check liftFloor(lift1) = 0;
+check liftDirection(lift1) = UP;
+
+set hasToDeliverAt(lift1, 0) := true;
+step
+check hasToDeliverAt(lift1, 0) = false;
+
+set existCallFromTo(0, UP) := true;
+set existCallFromTo(0, DOWN) := true;
+step
+check existCallFromTo(0, UP) = false;
+check existCallFromTo(0, DOWN) = false;
