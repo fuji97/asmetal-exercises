@@ -1,0 +1,8 @@
+scenario rapetti2
+load rapetti.asm
+
+check userPoints = 0;
+check pcPoints = 0;
+exec r_Play[CA, 1];
+check userPoints = 1;
+check pcPoints = 1;
